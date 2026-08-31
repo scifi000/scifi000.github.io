@@ -1,8 +1,9 @@
 
 :root {
-    --bg: #0a0a0f;
-    --fg: #f2f2f0;
-    --accent: #d7fc70;
+    --bg: #171017; 
+    --fg: #f3ece7; 
+    --accent: #e79bb5;
+    --card-bg: rgba(23, 16, 23, 0.55);
 }
 
 * {
@@ -14,7 +15,111 @@
 body {
     background-color: var(--bg);
     color: var(--fg);
+    font-family: "Jacques Francois", serif;
+}
+
+.hero h1 {
+    font-size: 6rem;
+    font-family: "Pinyon Script", cursive;
+}
+
+.bg-image{
+    position:fixed;
+    z-index: -1;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    background: linear-gradient(rgba(23, 16, 23, 0.65), rgba(23, 16, 23, 0.65)), url('../BACKGROUND.webp');
+    background-size: cover;
+    background-position: center;
+}
+
+.intro-overlay{
+    background: linear-gradient(rgba(23, 16, 23, 0.65), rgba(23, 16, 23, 0.55)), url('../BACKGROUND.webp');
+    background-size: cover;
+    background-position: center;
+    position:fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease;
+}
+
+.intro-overlay.hidden{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.intro-content{
     font-family: "Press Start 2P", monospace;
+    font-size: 3rem;
+    text-align: center;
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    color: var(--accent);
+}
+
+.intro-content button{
+    padding: 0.5rem 0.05rem;
+    background-color: var(--bg);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.intro-content button:hover{
+    background-color: var(--accent);
+    color: var(--bg);
+}
+
+.hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    font-size:1rem
+}
+
+.hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hero__orb--a {
+  width: 380px;
+  height: 380px;
+  background: #68d1ab4e;
+  top: 10%;
+  left: 15%;
+}
+
+.hero__orb--b {
+  width: 260px;
+  height: 260px;
+  background: #68d1ab4e;
+  bottom: 12%;
+  right: 18%;
+}
+
+.hero__orb--c {
+  width: 180px;
+  height: 180px;
+  background: var(--accent);
+  top: 45%;
+  right: 35%;
 }
 
 .container {
@@ -23,12 +128,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-}
-
-.hero {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 6rem 2rem;
 }
 
 .stats {
@@ -43,7 +142,7 @@ body {
 }
 
 .stat-label{
-    font-size: 0.7rem;
+    font-size: 1rem;
     opacity: 0.6;
     display: block;
 }
@@ -71,4 +170,109 @@ body {
     font-size: 0.7rem;
     color: var(--fg);
     text-decoration: none;
+}
+
+#releases{
+    padding:6rem 2rem;
+}
+
+.release-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.card{
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.embed-placeholder{
+    aspect-ratio: 4 / 3;
+    background-color: rgba(198, 168, 193, 0.1);
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+.container h2{
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+#feed{
+    padding: 6rem 2rem;
+}
+
+.feed-list{
+    list-style: none;
+}
+
+.feed-item{
+    display: flex;
+    gap: 3rem;
+    align-items: baseline;
+    border-bottom: 1px solid rgba(242, 242, 240, 0.1);
+    padding: 1.5rem 0;
+}
+
+.feed-item time{
+    color: var(--accent); 
+    font-size: 1.5rem;
+    flex-shrink: 0
+}
+
+#links{
+    padding:6rem 2rem;
+}
+
+.link-list{
+    display:flex;
+    flex-wrap: wrap;
+    gap:2rem;
+}
+
+.link-button{
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    padding: 0.75rem 3rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.link-button:hover{
+    background-color: var(--accent);
+    color: var(--bg);
+}
+
+#newsletter{
+    padding: 6rem 2rem;
+}
+
+.newletter-form{
+    display:flex;
+    gap:1rem;
+}
+
+.newsletter-form input{
+    flex:1;
+    padding: 0.75rem 1rem;
+    background-color: var(--card-bg);
+    border: 1px solid rgba(242, 242, 240, 0.2);
+    border-radius: 10px;
+    color: var(--fg);
+    font-family: inherit;
+}
+
+.newsletter-form button{
+    padding: 0.75rem 1.5rem;
+    background-color: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.7rem;
+    cursor: pointer;
 }

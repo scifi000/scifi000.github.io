@@ -6,9 +6,16 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pinyon+Script&family=Jacques+Francois&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="bg-image" data-depth="0.006"></div>
+    <div class="intro-overlay" id="intro">
+        <div class="intro-content">
+            <h1>000</h1>
+            <button id="enter-btn"> Enter </button>
+        </div>
+    </div>
     <nav class = "navbar" > 
         <span class="logo"> SCIFI000 </span>
         <ul>
@@ -27,7 +34,7 @@
         </ul>
     </nav>
     <section class="hero">
-        <div class="container">
+        <div class="container" data-depth="0.02">
             <h1> SCIFI </h1>
             <p> Let the music move you. </p>
             <ul class="stats">
@@ -44,8 +51,72 @@
                     <span class="stat-label"> Listeners </span>
                 </li>
             </ul>
-
-                
+         </div>
+        <div class="hero__orb hero__orb--a" data-depth="0.018"></div>
+        <div class="hero__orb hero__orb--b" data-depth="0.034"></div>
+        <div class="hero__orb hero__orb--c" data-depth="0.010"></div>
+    </section>
+    <section id="releases" data-depth="0.006">
+        <div class="container"> 
+            <h2> Releases </h2>
+            <div class="release-grid">
+                <div class="card"> 
+                    <div class="embed-placeholder"></div>
+                    <h3> Uno </h3>
+                    <p> 2024 </p>
+                </div>
+                <div class="card"> 
+                    <div class="embed-placeholder"></div>
+                    <h3> Dos </h3>
+                    <p> 2025 </p>
+                </div>
+                <div class="card"> 
+                    <div class="embed-placeholder"></div>
+                    <h3> Tres </h3>
+                    <p> 2026 </p>
+                </div>
+            </div>
         </div>
     </section>
+    <section id="feed" data-depth="0.006">
+        <div class="container">
+            <h2>Feed</h2>
+            <ul class="feed-list">
+                <li class="feed-item">
+                    <time datetime="2026-06-30">June 30, 2026</time>
+                    <p> Update one blah blah </p>
+                </li>
+                <li class="feed-item">
+                    <time datetime="2026-07-30">July 30, 2026</time>
+                    <p> Update two blah blah </p>
+                </li>
+                <li class="feed-item">
+                    <time datetime="2026-08-30">August 30, 2026</time>
+                    <p> Update three blah blah </p>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section id="links" data-depth="0.006">
+        <div class="container">
+            <h2>Links</h2>
+            <div class="link-list">
+                <a class="link-button" href=#Spotify>Spotify</a>
+                <a class="link-button" href=#Soundcloud>Soundcloud</a>
+                <a class="link-button" href=#Instagram>Instagram</a>
+                <a class="link-button" href=#Youtube>Youtube</a>
+            </div>
+        </div>
+    </section>
+    <section id="newsletter" data-depth="0.006">
+        <div class="container">
+            <h2>Newsletter</h2>
+            <p>Get updates on new releases</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="your@email.com" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+    <script src="js/main.js"></script>
 </body>
