@@ -138,14 +138,28 @@ body {
 }
 
 .play-icon {
-    width: 1.6rem;
-    height: 1.6rem;
+    position: relative;
+    width: 0.9rem;
+    height: 1.5rem;
+}
+
+.play-icon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -0.35rem;
+    width: 0.5rem;
+    height: 0.3rem;
     background-color: var(--fg);
-    clip-path: polygon(
-        0% 0%, 20% 0%, 20% 20%, 50% 20%, 50% 40%, 100% 40%,
-        100% 60%, 50% 60%, 50% 80%, 20% 80%, 20% 100%, 0% 100%
-    );
-    margin-left: 0.15rem;
+    box-shadow:
+        0 0.3rem var(--fg),
+        0.3rem 0.3rem var(--fg),
+        0 0.6rem var(--fg),
+        0.3rem 0.6rem var(--fg),
+        0.6rem 0.6rem var(--fg),
+        0 0.9rem var(--fg),
+        0.3rem 0.9rem var(--fg),
+        0 1.2rem var(--fg);
 }
 
 @keyframes pulse {
