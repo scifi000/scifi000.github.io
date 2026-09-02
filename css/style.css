@@ -256,7 +256,7 @@ body { cursor: none; }
 .intro-content {
     position: absolute;
     left: var(--title-x);
-    top: var(--title-y);
+    top: calc(var(--title-y) - 12vh);
     z-index: 2;
     text-align: left;
     display: flex;
@@ -274,6 +274,7 @@ body { cursor: none; }
     padding: 0.85rem 2.5rem 0.85rem 2.5rem;
     background-color: transparent;
     color: var(--ink);
+    top: calc(var(--title-y) - 10vh);
     border: 1px solid var(--steel);
     border-radius: 999px;
     font-family: "Jacques Francois", serif;
