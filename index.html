@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>scifi000</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -9,7 +10,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=MonteCarlo&family=Jacques+Francois&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="bg-image" data-depth="0.006"></div>
+    <div class="bg-video-wrap" data-depth="0.006">
+        <video class="bg-video" autoplay muted loop playsinline>
+            <source src="BACKGROUND.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="ambient-fog" data-depth="0.006"></div>
+
+    <div class="light-flicker" style="--x: 14%; --y: 22%; --sz: 3px; --d: 4.2s;"></div>
+    <div class="light-flicker" style="--x: 78%; --y: 16%; --sz: 2px; --d: 5.6s;"></div>
+    <div class="light-flicker" style="--x: 64%; --y: 68%; --sz: 4px; --d: 3.8s;"></div>
+    <div class="light-flicker" style="--x: 30%; --y: 80%; --sz: 2px; --d: 6.1s;"></div>
+    <div class="light-flicker" style="--x: 90%; --y: 50%; --sz: 3px; --d: 4.9s;"></div>
+
+    <div class="vignette" id="vignette"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
     <div class="intro-overlay" id="intro">
         <div class="intro-tiles" id="introTiles"></div>
         <div class="intro-content" id="introContent">
@@ -17,36 +34,52 @@
                 <span class="play-icon"></span>
             </button>
             <div class="intro-reveal" id="introReveal">
-                <h1>000</h1>
-                <button id="enter-btn">Enter</button>
+                <a class="logo-mark logo-mark--intro" href="#">
+                    <span class="logo-script">scifi</span><span class="logo-code">000</span>
+                </a>
+                <button id="enter-btn" data-magnetic>Enter</button>
             </div>
         </div>
     </div>
+
     <nav class="navbar">
-        <span class="logo"> SCIFI000 </span>
+        <a class="logo-mark logo-mark--nav" href="#">
+            <span class="logo-script">scifi</span><span class="logo-code">000</span>
+        </a>
         <ul>
             <li><a href="#releases">Releases</a></li>
             <li><a href="#feed">Feed</a></li>
             <li><a href="#links">Links</a></li>
             <li><a href="#newsletter">Newsletter</a></li>
+            <li>
+                <button class="mute-btn" id="mute-btn" data-sfx="tick" aria-pressed="false" aria-label="Mute background audio">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>
+                        <path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </li>
         </ul>
     </nav>
+
     <section class="hero">
         <div class="container" data-depth="0.02">
-            <h1> SCIFI </h1>
-            <p> Let the music move you. </p>
+            <a class="logo-mark logo-mark--hero" href="#">
+                <span class="logo-script">scifi</span><span class="logo-code">000</span>
+            </a>
+            <p>Let the music move you.</p>
             <ul class="stats">
                 <li>
-                    <span class="stat-value"> # </span>
-                    <span class="stat-label"> Releases</span>
+                    <span class="stat-value"># </span>
+                    <span class="stat-label">Releases</span>
                 </li>
                 <li>
-                    <span class="stat-value"> # </span>
-                    <span class="stat-label"> Years</span>
+                    <span class="stat-value"># </span>
+                    <span class="stat-label">Years</span>
                 </li>
                 <li>
-                    <span class="stat-value"> # </span>
-                    <span class="stat-label"> Listeners </span>
+                    <span class="stat-value"># </span>
+                    <span class="stat-label">Listeners</span>
                 </li>
             </ul>
         </div>
@@ -54,69 +87,74 @@
         <div class="hero__orb hero__orb--b" data-depth="0.034"></div>
         <div class="hero__orb hero__orb--c" data-depth="0.010"></div>
     </section>
+
     <section id="releases" data-depth="0.006">
         <div class="container">
-            <h2> Releases </h2>
+            <h2>Releases</h2>
             <div class="release-grid">
                 <div class="card">
                     <div class="embed-placeholder"></div>
-                    <h3> Uno </h3>
-                    <p> 2024 </p>
+                    <h3>Uno</h3>
+                    <p>2024</p>
                 </div>
                 <div class="card">
                     <div class="embed-placeholder"></div>
-                    <h3> Dos </h3>
-                    <p> 2025 </p>
+                    <h3>Dos</h3>
+                    <p>2025</p>
                 </div>
                 <div class="card">
                     <div class="embed-placeholder"></div>
-                    <h3> Tres </h3>
-                    <p> 2026 </p>
+                    <h3>Tres</h3>
+                    <p>2026</p>
                 </div>
             </div>
         </div>
     </section>
+
     <section id="feed" data-depth="0.006">
         <div class="container">
             <h2>Feed</h2>
             <ul class="feed-list">
                 <li class="feed-item">
                     <time datetime="2026-06-30">June 30, 2026</time>
-                    <p> Update one blah blah </p>
+                    <p>Update one blah blah</p>
                 </li>
                 <li class="feed-item">
                     <time datetime="2026-07-30">July 30, 2026</time>
-                    <p> Update two blah blah </p>
+                    <p>Update two blah blah</p>
                 </li>
                 <li class="feed-item">
                     <time datetime="2026-08-30">August 30, 2026</time>
-                    <p> Update three blah blah </p>
+                    <p>Update three blah blah</p>
                 </li>
             </ul>
         </div>
     </section>
+
     <section id="links" data-depth="0.006">
         <div class="container">
             <h2>Links</h2>
             <div class="link-list">
-                <a class="link-button" href="#Spotify">Spotify</a>
-                <a class="link-button" href="#Soundcloud">Soundcloud</a>
-                <a class="link-button" href="#Instagram">Instagram</a>
-                <a class="link-button" href="#Youtube">Youtube</a>
+                <a class="link-button" href="#Spotify" data-sfx="tick" data-magnetic>Spotify</a>
+                <a class="link-button" href="#Soundcloud" data-sfx="tick" data-magnetic>Soundcloud</a>
+                <a class="link-button" href="#Instagram" data-sfx="tick" data-magnetic>Instagram</a>
+                <a class="link-button" href="#Youtube" data-sfx="tick" data-magnetic>Youtube</a>
             </div>
         </div>
     </section>
+
     <section id="newsletter" data-depth="0.006">
         <div class="container">
             <h2>Newsletter</h2>
             <p>Get updates on new releases</p>
-            <form class="newsletter-form">
+            <form class="newsletter-form" id="newsletter-form">
                 <input type="email" placeholder="your@email.com" required>
-                <button type="submit">Subscribe</button>
+                <button type="submit" data-sfx="tick">Subscribe</button>
             </form>
         </div>
     </section>
-    <audio id="bg-audio" src="000_bonita.wav" preload="auto" loop></audio>
+
+    <audio id="bg-audio" src="000_bonita.wav" preload="auto" loop crossorigin="anonymous"></audio>
     <script src="js/main.js"></script>
 </body>
 </html>

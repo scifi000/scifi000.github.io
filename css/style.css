@@ -1,13 +1,16 @@
-@font-face {
-    font-family: "Sym";
-    src: url('../fonts/Sym.otf') format('opentype');
-}
-
 :root {
-    --bg: #171017;
-    --fg: #f3ece7;
-    --accent: #e79bb5;
-    --card-bg: rgba(23, 16, 23, 0.55);
+    /* Sampled from BACKGROUND.webp: fog-blue midtones, void black, icy window-light cyan */
+    --bg: #070b0f;
+    --bg-mist: #16232b;
+    --ink: #dbe7ec;
+    --ink-dim: #8fa5b0;
+    --signal: #8fdcef;
+    --signal-dim: rgba(143, 220, 239, 0.35);
+    --steel: #3c5c6c;
+    --card-bg: rgba(9, 15, 20, 0.55);
+
+    --title-x: 9vw;
+    --title-y: 22vh;
 }
 
 * {
@@ -20,24 +23,200 @@ html {
     scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
 body {
     background-color: var(--bg);
-    color: var(--fg);
+    color: var(--ink);
     font-family: "Jacques Francois", serif;
 }
 
-.bg-image {
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+}
+
+.bg-video-wrap {
     position: fixed;
     z-index: -1;
     top: -5%;
     left: -5%;
     width: 110%;
     height: 110%;
-    background: linear-gradient(rgba(23, 16, 23, 0.65), rgba(23, 16, 23, 0.65)), url('../BACKGROUND.webp');
-    background-size: cover;
-    background-position: center;
+    overflow: hidden;
 }
 
+.bg-video-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(7, 11, 15, 0.55) 0%, rgba(7, 11, 15, 0.35) 40%, rgba(7, 11, 15, 0.8) 100%);
+}
+
+.bg-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 22% 28%;
+}
+
+/* ---------- Ambient atmosphere: fog grain, light flicker, vignette ---------- */
+.ambient-fog {
+    position: fixed;
+    inset: -10%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.45;
+    mix-blend-mode: screen;
+    background-repeat: no-repeat;
+    background-image:
+        radial-gradient(ellipse 620px 280px at 18% 28%, rgba(190, 226, 236, 0.4), transparent 70%),
+        radial-gradient(ellipse 520px 240px at 72% 58%, rgba(190, 226, 236, 0.3), transparent 70%),
+        radial-gradient(ellipse 720px 320px at 48% 82%, rgba(190, 226, 236, 0.26), transparent 70%),
+        radial-gradient(ellipse 460px 220px at 88% 18%, rgba(190, 226, 236, 0.28), transparent 70%);
+    animation: fogDrift 2s ease-in-out infinite alternate;
+}
+
+@keyframes fogDrift {
+    0% { transform: translate(0%, 0%) scale(1); }
+    100% { transform: translate(4%, -3%) scale(1.06); }
+}
+
+.light-flicker {
+    position: fixed;
+    left: var(--x);
+    top: var(--y);
+    z-index: -1;
+    width: var(--sz);
+    height: var(--sz);
+    border-radius: 50%;
+    background: var(--signal);
+    box-shadow: 0 0 6px 1px var(--signal-dim);
+    pointer-events: none;
+    animation: flicker var(--d) ease-in-out infinite;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 0.85; }
+    45% { opacity: 0.85; }
+    48% { opacity: 0.2; }
+    51% { opacity: 0.85; }
+    76% { opacity: 0.5; }
+    79% { opacity: 0.9; }
+}
+
+.vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(7, 11, 15, 0) 45%, rgba(7, 11, 15, var(--vignette-intensity, 0.35)) 100%);
+    transition: background 0.2s ease;
+}
+
+/* ---------- Custom cursor ---------- */
+body { cursor: none; }
+
+@media (hover: none), (pointer: coarse) {
+    body { cursor: auto; }
+    .cursor-dot { display: none; }
+}
+
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--signal);
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease;
+    will-change: transform;
+}
+
+.cursor-dot.cursor-dot--active {
+    width: 12px;
+    height: 12px;
+}
+
+/* ---------- Logo lockup: calligraphy "scifi" + pixel "000" ---------- */
+/* MonteCarlo carries the signature/script mark; Press Start 2P carries the
+   catalog numeral. The pairing is the brand: a hand-signed name over a
+   machine-stamped ID. */
+.logo-mark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35em;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.logo-mark .logo-script {
+    font-family: "MonteCarlo", cursive;
+    color: var(--signal);
+    text-shadow: 0 0 calc(18px + var(--bass, 0) * 16px) var(--signal-dim), 0 0 2px rgba(143, 220, 239, 0.6);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+}
+
+.logo-mark .logo-code {
+    font-family: "Press Start 2P", monospace;
+    color: var(--ink-dim);
+    letter-spacing: 0.06em;
+}
+
+.logo-mark--nav { font-size: 1rem; }
+.logo-mark--nav .logo-script { font-size: 1.9em; }
+.logo-mark--nav .logo-code { font-size: 0.62em; }
+
+.logo-mark--intro { font-size: 1.6rem; }
+.logo-mark--intro .logo-script { font-size: 3.4em; }
+.logo-mark--intro .logo-code { font-size: 0.85em; }
+
+.logo-mark--hero { font-size: clamp(2.4rem, 6vw, 4.2rem); }
+.logo-mark--hero .logo-script { font-size: 1.9em; }
+.logo-mark--hero .logo-code { font-size: 0.42em; align-self: flex-end; }
+
+.logo-mark--hero .logo-script {
+    display: inline-block;
+    transition: text-shadow 0.15s ease;
+}
+
+.logo-mark--hero:hover .logo-script {
+    animation: glitchShift 0.5s steps(3, end) 1;
+    text-shadow:
+        0 0 18px var(--signal-dim),
+        -2px 0 0 rgba(255, 70, 130, 0.65),
+        2px 0 0 rgba(90, 230, 255, 0.75);
+}
+
+@keyframes glitchShift {
+    0% { transform: translate(0, 0) skewX(0deg); }
+    20% { transform: translate(-2px, 1px) skewX(2deg); }
+    40% { transform: translate(2px, -1px) skewX(-2deg); }
+    60% { transform: translate(-1px, 0) skewX(1deg); }
+    80% { transform: translate(1px, 1px) skewX(-1deg); }
+    100% { transform: translate(0, 0) skewX(0deg); }
+}
+
+.logo-script.is-scrambling {
+    text-shadow:
+        0 0 18px var(--signal-dim),
+        -1px 0 0 rgba(255, 70, 130, 0.5),
+        1px 0 0 rgba(90, 230, 255, 0.6);
+}
+
+/* ---------- Intro ---------- */
 .intro-overlay {
     position: fixed;
     inset: 0;
@@ -75,13 +254,15 @@ body {
 }
 
 .intro-content {
-    position: relative;
+    position: absolute;
+    left: var(--title-x);
+    top: var(--title-y);
     z-index: 2;
-    text-align: center;
+    text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 2.5rem;
+    align-items: flex-start;
+    gap: 2rem;
     transition: opacity 0.4s ease;
 }
 
@@ -89,39 +270,31 @@ body {
     opacity: 0;
 }
 
-.intro-content h1 {
-    font-family: "Press Start 2P", monospace;
-    font-size: 8rem;
-    color: var(--accent);
-    opacity: 0.65;
-    letter-spacing: 0.05em;
-    line-height: 1;
-}
-
 .intro-content button {
-    padding: 0.85rem 2.5rem;
+    padding: 0.85rem 2.5rem 0.85rem 2.5rem;
     background-color: transparent;
-    color: var(--fg);
-    border: 1px solid var(--fg);
+    color: var(--ink);
+    border: 1px solid var(--steel);
     border-radius: 999px;
     font-family: "Jacques Francois", serif;
     font-size: 0.85rem;
     letter-spacing: 0.08em;
     cursor: pointer;
-    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .intro-content button:hover {
-    background-color: var(--fg);
+    background-color: var(--signal);
     color: var(--bg);
-    border-color: var(--fg);
+    border-color: var(--signal);
 }
 
 .play-btn {
+    position: relative;
     width: 4.5rem;
     height: 4.5rem;
     border-radius: 50%;
-    border: 1px solid var(--fg);
+    border: 1px solid var(--ink);
     background-color: transparent;
     cursor: pointer;
     display: flex;
@@ -129,6 +302,17 @@ body {
     justify-content: center;
     transition: opacity 0.5s ease, transform 0.5s ease;
     animation: pulse 2.4s ease-in-out infinite;
+}
+
+/* Bass-reactive glow ring: --bass (0-1) is written by the audio analyser
+   in main.js once the track is playing; sits at 0 (invisible) otherwise. */
+.play-btn::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    box-shadow: 0 0 calc(4px + var(--bass, 0) * 26px) calc(1px + var(--bass, 0) * 6px) var(--signal-dim);
+    pointer-events: none;
 }
 
 .play-btn.fading {
@@ -150,28 +334,28 @@ body {
     left: -0.35rem;
     width: 0.5rem;
     height: 0.3rem;
-    background-color: var(--fg);
+    background-color: var(--ink);
     box-shadow:
-        0 0.3rem var(--fg),
-        0.3rem 0.3rem var(--fg),
-        0 0.6rem var(--fg),
-        0.3rem 0.6rem var(--fg),
-        0.6rem 0.6rem var(--fg),
-        0 0.9rem var(--fg),
-        0.3rem 0.9rem var(--fg),
-        0 1.2rem var(--fg);
+        0 0.3rem var(--ink),
+        0.3rem 0.3rem var(--ink),
+        0 0.6rem var(--ink),
+        0.3rem 0.6rem var(--ink),
+        0.6rem 0.6rem var(--ink),
+        0 0.9rem var(--ink),
+        0.3rem 0.9rem var(--ink),
+        0 1.2rem var(--ink);
 }
 
 @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(243, 236, 231, 0.25); }
-    50% { box-shadow: 0 0 0 14px rgba(243, 236, 231, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(143, 220, 239, 0.3); }
+    50% { box-shadow: 0 0 0 14px rgba(143, 220, 239, 0); }
 }
 
 .intro-reveal {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 2.5rem;
+    align-items: flex-start;
+    gap: 2rem;
     opacity: 0;
     transform: translateY(12px);
     transition: opacity 0.8s ease, transform 0.8s ease;
@@ -186,8 +370,8 @@ body {
 
 .trail-pixel {
     position: fixed;
-    background-color: var(--accent);
-    opacity: 0.55;
+    background-color: var(--signal);
+    opacity: 0.5;
     pointer-events: none;
     z-index: 5;
     transform: translate(-50%, -50%);
@@ -200,6 +384,7 @@ body {
     transform: translate(-50%, -50%) scale(0.3);
 }
 
+/* ---------- Nav ---------- */
 .navbar {
     position: fixed;
     top: 0;
@@ -207,48 +392,107 @@ body {
     right: 0;
     z-index: 50;
     backdrop-filter: blur(12px);
-    background-color: rgba(23, 16, 23, 0.15);
+    background-color: rgba(7, 11, 15, 0.25);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem;
 }
 
 .navbar ul {
     list-style: none;
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    gap: 1.5rem;
 }
 
 .navbar a {
     font-size: 0.8rem;
     letter-spacing: 0.08em;
-    color: var(--fg);
+    color: var(--ink);
     text-decoration: none;
+    position: relative;
 }
 
+.navbar a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.3rem;
+    width: 0;
+    height: 1px;
+    background-color: var(--signal);
+    transition: width 0.25s ease;
+}
+
+.navbar a:hover::after {
+    width: 100%;
+}
+
+.mute-btn {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    border: 1px solid var(--steel);
+    background-color: transparent;
+    color: var(--ink-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.mute-btn:hover {
+    border-color: var(--signal);
+    color: var(--signal);
+}
+
+.mute-btn svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.mute-btn .wave {
+    transition: opacity 0.15s ease;
+}
+
+.mute-btn.is-muted .wave {
+    opacity: 0.25;
+}
+
+/* ---------- Hero ---------- */
 .hero {
     position: relative;
     min-height: 100vh;
     display: flex;
-    align-items: center;
-    padding: 8rem 2rem 4rem;
+    align-items: flex-start;
+    padding: 0 2rem 4rem;
 }
 
-.hero h1 {
-    font-size: 8rem;
-    font-family:"Sym", cursive;
-    letter-spacing: 0.04em;
-    line-height: 1;
-    margin-left: -0.65rem;
-    opacity: 0.85;
+.hero .container {
+    position: absolute;
+    left: var(--title-x);
+    top: var(--title-y);
+    max-width: 30rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+}
+
+.hero p {
+    color: var(--ink-dim);
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
 }
 
 .hero__orb {
     position: absolute;
     border-radius: 50%;
     filter: blur(60px);
-    opacity: 0.55;
+    opacity: 0.4;
     pointer-events: none;
     will-change: transform;
 }
@@ -256,15 +500,15 @@ body {
 .hero__orb--a {
     width: 380px;
     height: 380px;
-    background: #68d1ab4e;
-    top: 10%;
-    left: 15%;
+    background: #3c5c6c66;
+    top: 8%;
+    left: 4%;
 }
 
 .hero__orb--b {
     width: 260px;
     height: 260px;
-    background: #68d1ab4e;
+    background: #8fdcef33;
     bottom: 12%;
     right: 18%;
 }
@@ -272,7 +516,7 @@ body {
 .hero__orb--c {
     width: 180px;
     height: 180px;
-    background: var(--accent);
+    background: #8fdcef26;
     top: 45%;
     right: 35%;
 }
@@ -293,7 +537,7 @@ body {
 
 .stat-value {
     font-size: 1.4rem;
-    color: var(--accent);
+    color: var(--signal);
     letter-spacing: 0.02em;
 }
 
@@ -323,13 +567,19 @@ section[id] {
 
 .card {
     background-color: var(--card-bg);
+    border: 1px solid rgba(60, 92, 108, 0.4);
     padding: 2rem;
     border-radius: 1rem;
+    transition: border-color 0.25s ease;
+}
+
+.card:hover {
+    border-color: var(--signal-dim);
 }
 
 .embed-placeholder {
     aspect-ratio: 4 / 3;
-    background-color: rgba(198, 168, 193, 0.1);
+    background-color: rgba(143, 220, 239, 0.06);
     border-radius: 1rem;
     margin-bottom: 1rem;
 }
@@ -338,6 +588,7 @@ section[id] {
     margin-bottom: 2rem;
     font-size: 1.7rem;
     letter-spacing: 0.02em;
+    color: var(--ink);
 }
 
 .feed-list {
@@ -348,12 +599,12 @@ section[id] {
     display: flex;
     gap: 3rem;
     align-items: baseline;
-    border-bottom: 1px solid rgba(242, 242, 240, 0.1);
+    border-bottom: 1px solid rgba(219, 231, 236, 0.08);
     padding: 1.5rem 0;
 }
 
 .feed-item time {
-    color: var(--accent);
+    color: var(--signal);
     font-size: 0.75rem;
     letter-spacing: 0.06em;
     flex-shrink: 0;
@@ -366,19 +617,20 @@ section[id] {
 }
 
 .link-button {
-    border: 1px solid var(--accent);
-    color: var(--accent);
+    border: 1px solid var(--steel);
+    color: var(--ink);
     text-decoration: none;
     padding: 0.75rem 3rem;
     border-radius: 999px;
     font-size: 0.7rem;
     letter-spacing: 0.08em;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .link-button:hover {
-    background-color: var(--accent);
+    background-color: var(--signal);
     color: var(--bg);
+    border-color: var(--signal);
 }
 
 .newsletter-form {
@@ -390,15 +642,15 @@ section[id] {
     flex: 1;
     padding: 0.75rem 1rem;
     background-color: var(--card-bg);
-    border: 1px solid rgba(242, 242, 240, 0.2);
+    border: 1px solid rgba(219, 231, 236, 0.2);
     border-radius: 10px;
-    color: var(--fg);
+    color: var(--ink);
     font-family: inherit;
 }
 
 .newsletter-form button {
     padding: 0.75rem 1.5rem;
-    background-color: var(--accent);
+    background-color: var(--signal);
     color: var(--bg);
     border: none;
     border-radius: 4px;
@@ -406,4 +658,23 @@ section[id] {
     font-size: 0.7rem;
     letter-spacing: 0.08em;
     cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.newsletter-form button:hover {
+    background-color: #b3ebf5;
+}
+
+.newsletter-form button.sent {
+    background-color: var(--steel);
+    color: var(--ink);
+}
+
+@media (max-width: 720px) {
+    :root { --title-x: 6vw; --title-y: 16vh; }
+    .hero .container { max-width: 85vw; }
+    .release-grid { grid-template-columns: 1fr; }
+    .navbar { padding: 1rem; }
+    .navbar ul { gap: 0.7rem; flex-wrap: wrap; justify-content: flex-end; row-gap: 0.4rem; }
+    .navbar a { font-size: 0.68rem; }
 }
