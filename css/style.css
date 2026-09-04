@@ -1,5 +1,4 @@
 :root {
-    /* Sampled from BACKGROUND.webp: fog-blue midtones, void black, icy window-light cyan */
     --bg: #070b0f;
     --bg-mist: #16232b;
     --ink: #dbe7ec;
@@ -66,7 +65,6 @@ input:focus-visible {
     object-position: 22% 28%;
 }
 
-/* ---------- Ambient atmosphere: fog grain, light flicker, vignette ---------- */
 .ambient-fog {
     position: fixed;
     inset: -10%;
@@ -120,7 +118,6 @@ input:focus-visible {
     transition: background 0.2s ease;
 }
 
-/* ---------- Custom cursor ---------- */
 body { cursor: none; }
 
 @media (hover: none), (pointer: coarse) {
@@ -148,10 +145,7 @@ body { cursor: none; }
     height: 12px;
 }
 
-/* ---------- Logo lockup: calligraphy "scifi" + pixel "000" ---------- */
-/* MonteCarlo carries the signature/script mark; Press Start 2P carries the
-   catalog numeral. The pairing is the brand: a hand-signed name over a
-   machine-stamped ID. */
+
 .logo-mark {
     display: inline-flex;
     align-items: baseline;
@@ -216,7 +210,6 @@ body { cursor: none; }
         1px 0 0 rgba(90, 230, 255, 0.6);
 }
 
-/* ---------- Intro ---------- */
 .intro-overlay {
     position: fixed;
     inset: 0;
@@ -305,8 +298,6 @@ body { cursor: none; }
     animation: pulse 2.4s ease-in-out infinite;
 }
 
-/* Bass-reactive glow ring: --bass (0-1) is written by the audio analyser
-   in main.js once the track is playing; sits at 0 (invisible) otherwise. */
 .play-btn::after {
     content: "";
     position: absolute;
@@ -385,7 +376,6 @@ body { cursor: none; }
     transform: translate(-50%, -50%) scale(0.3);
 }
 
-/* ---------- Nav ---------- */
 .navbar {
     position: fixed;
     top: 0;
@@ -462,7 +452,6 @@ body { cursor: none; }
     opacity: 0.25;
 }
 
-/* ---------- Hero ---------- */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -583,6 +572,77 @@ section[id] {
     background-color: rgba(143, 220, 239, 0.06);
     border-radius: 1rem;
     margin-bottom: 1rem;
+}
+
+.section-intro {
+    color: var(--ink-dim);
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+    max-width: 34rem;
+}
+
+.feature-release {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.feature-release__art .embed-placeholder {
+    margin-bottom: 0;
+}
+
+.feature-release__info .stat-label {
+    display: inline-block;
+    color: var(--signal);
+    opacity: 1;
+    margin-bottom: 0.75rem;
+}
+
+.feature-release__info h3 {
+    font-size: 2.1rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+}
+
+.feature-release__info p {
+    color: var(--ink-dim);
+    margin-bottom: 1.75rem;
+}
+
+.embed-frame {
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(60, 92, 108, 0.4);
+}
+
+.embed-frame iframe {
+    display: block;
+}
+
+@media (max-width: 720px) {
+    .feature-release {
+        grid-template-columns: 1fr;
+    }
+}
+
+.clips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    justify-items: center;
+}
+
+.clips-grid .tiktok-embed {
+    margin: 0;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .clips-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .container h2 {
