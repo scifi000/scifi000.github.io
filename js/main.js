@@ -145,7 +145,6 @@ function scrambleInto(el, finalText, totalDuration = 650) {
 playButton.addEventListener('click', function () {
     ensureAudioCtx();
     setUpAudioAnalyser();
-    playPowerOn();
     bgAudio.play();
     playButton.classList.add('fading');
     introReveal.classList.add('visible');
